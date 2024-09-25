@@ -230,10 +230,10 @@ def buildHull( points ):
         right_arr = list()
         # Use for loop to assign each value in points[] to one of the lists
         for i in range(len(points)):
-            # If the index of the value is less than the halfway point, insert it into left_arr
+            # If the index i of points[i] is less than the halfway point, insert its value into left_arr
             if i < new_size:
                left_arr.insert(i, points[i])
-            # Otherwise, insert it into right_arr  
+            # Otherwise, insert its value into right_arr  
             else:  
                right_arr.insert(i - new_size, points[i])
         # Recursively build left_arr and right_arr      

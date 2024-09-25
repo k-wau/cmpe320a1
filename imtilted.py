@@ -1,3 +1,7 @@
+
+# test file to make sure i'm not going crazy lol
+# - jake
+
 def turn( a, b, c ):
 
     det = (a.x-c.x) * (b.y-c.y) - (b.x-c.x) * (a.y-c.y)

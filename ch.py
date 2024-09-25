@@ -225,16 +225,16 @@ def buildHull( points ):
 
         # [YOUR CODE HERE]
         # Split size of points[] in half and create two arrays
-        newSize = points.length()/2
-        # Assign the first half of points[] to L and the second half of points[] to R
+        new_size = points.length()/2
+        left_arr = list()
+        right_arr = list()
         for i in range(points.length()):
-            if i < newSize:
-               L[i] = points[i]
+            if i < new_size:
+               left_arr.insert(i, points[i])
             else:
-               R[i - newSize] = points[i]
-        # Recursively call buildHull for both arrays      
-        buildHull(L)
-        buildHull(R)
+               right_arr.insert(i - new_size, points[i])
+        buildHull(left_arr)
+        buildHull(right_arr)
       
         pass
 

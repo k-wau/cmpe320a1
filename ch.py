@@ -225,10 +225,10 @@ def buildHull( points ):
 
         # [YOUR CODE HERE]
         # Split size of points[] in half and create two arrays
-        new_size = points.length()/2
+        new_size = len(points)//2
         left_arr = list()
         right_arr = list()
-        for i in range(points.length()):
+        for i in range(len(points)):
             if i < new_size:
                left_arr.insert(i, points[i])
             else:
@@ -258,6 +258,19 @@ def buildHull( points ):
         display(wait=addPauses)
 
         # Merge the two hulls
+
+        # BOTTOM MERGE
+        left_arr.sort(key=lambda p: p.x)
+        right_arr.sort(key=lambda p: p.x)
+        l = left_arr[0]
+        r = right_arr[-1]
+        while (turn(l, r, r.ccwPoint) == RIGHT_TURN) or (turn(r, l, l.cwPoint) == LEFT_TURN):
+            if turn(l, r, r.ccwPoint) == RIGHT_TURN:
+                r = r.ccwPoint
+            if turn(r, l, l.cwPoint) == LEFT_TURN:
+                l = l.cwPoint
+        l.cwPoint = r
+        r.ccwPoint = l
 
         # [YOUR CODE HERE]
 

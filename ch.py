@@ -191,7 +191,7 @@ def buildHull( points ):
             b.ccwPoint = c
             c.cwPoint = b
             c.ccwPoint = a
-        # Otherwise, the points make a right turn    
+        # Otherwise, the points make a right turn since it is assumed that straight lines do not exist   
         else:
             a.cwPoint = b
             a.ccwPoint = c
@@ -224,15 +224,19 @@ def buildHull( points ):
         # Recurse to build left and right hull
 
         # [YOUR CODE HERE]
-        # Split size of points[] in half and create two arrays
+        # Split size of points[] in half and declare two lists to act as arrays
         new_size = len(points)//2
         left_arr = list()
         right_arr = list()
+        # Use for loop to assign each value in points[] to one of the lists
         for i in range(len(points)):
+            # If the index of the value is less than the halfway point, insert it into left_arr
             if i < new_size:
                left_arr.insert(i, points[i])
-            else:
+            # Otherwise, insert it into right_arr  
+            else:  
                right_arr.insert(i - new_size, points[i])
+        # Recursively build left_arr and right_arr      
         buildHull(left_arr)
         buildHull(right_arr)
       

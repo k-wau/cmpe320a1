@@ -180,11 +180,11 @@ def buildHull( points ):
         # [YOUR CODE HERE]
         # Initialize and declare a, b, and c to hold their respective points
         a = points[0]
-        b = points [1]
+        b = points[1]
         c = points[2]
 
         # Check whether the points make a left turn
-        if LEFT_TURN:
+        if turn(a, b, c) == LEFT_TURN:
             a.cwPoint = c
             a.ccwPoint = b
             b.cwPoint = a
@@ -259,18 +259,45 @@ def buildHull( points ):
 
         # Merge the two hulls
 
-        # BOTTOM MERGE
-        left_arr.sort(key=lambda p: p.x)
-        right_arr.sort(key=lambda p: p.x)
-        l = left_arr[0]
-        r = right_arr[-1]
-        while (turn(l, r, r.ccwPoint) == RIGHT_TURN) or (turn(r, l, l.cwPoint) == LEFT_TURN):
-            if turn(l, r, r.ccwPoint) == RIGHT_TURN:
-                r = r.ccwPoint
-            if turn(r, l, l.cwPoint) == LEFT_TURN:
-                l = l.cwPoint
-        l.cwPoint = r
-        r.ccwPoint = l
+        # This approach merges both the top and bottom bridges at the same time,
+        # from the inside out.
+        leftTop = left_arr[-1]
+        leftBottom = left_arr[-1]
+        rightTop = right_arr[0]
+        rightBottom = right_arr[0]
+        
+        # This loop goes over all of the possible changes we could need to make,
+        # and rotates the points accordingly.
+
+        # More generally, it checks if the connection between one side and the other hull
+        # wraps in the correct direction, and increments the other side if not.
+
+        while ((turn(leftTop, rightTop, rightTop.cwPoint) == LEFT_TURN) or 
+               (turn(rightTop, leftTop, leftTop.ccwPoint) == RIGHT_TURN) or 
+               (turn(leftBottom, rightBottom, rightBottom.ccwPoint) == RIGHT_TURN) or 
+               (turn(rightBottom, leftBottom, leftBottom.cwPoint) == LEFT_TURN)):
+            
+            if turn(leftTop, rightTop, rightTop.cwPoint) == LEFT_TURN:
+                rightTop = rightTop.cwPoint
+
+            if turn(rightTop, leftTop, leftTop.ccwPoint) == RIGHT_TURN:
+                leftTop = leftTop.ccwPoint
+
+            if turn(leftBottom, rightBottom, rightBottom.ccwPoint) == RIGHT_TURN:
+                rightBottom = rightBottom.ccwPoint
+                
+            if turn(rightBottom, leftBottom, leftBottom.cwPoint) == LEFT_TURN:
+                leftBottom = leftBottom.cwPoint
+
+        # Finally, we assign the points to connect to each other. This must be done after the
+        # top and bottom are both merged, otherwise the points will connect with the wrong points
+        # when doing the other side.
+
+        leftTop.cwPoint = rightTop
+        rightTop.ccwPoint = leftTop    
+        leftBottom.ccwPoint = rightBottom
+        rightBottom.cwPoint = leftBottom
+
 
         # [YOUR CODE HERE]
 

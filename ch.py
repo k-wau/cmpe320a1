@@ -178,7 +178,28 @@ def buildHull( points ):
         # Base case of 3 points: make a hull
         
         # [YOUR CODE HERE]
-      
+        # Initialize and declare a, b, and c to hold their respective points
+        a = points[0]
+        b = points [1]
+        c = points[2]
+
+        # Check whether the points make a left turn
+        if LEFT_TURN:
+            a.cwPoint = c
+            a.ccwPoint = b
+            b.cwPoint = a
+            b.ccwPoint = c
+            c.cwPoint = b
+            c.ccwPoint = a
+        # Otherwise, the points make a right turn    
+        else:
+            a.cwPoint = b
+            a.ccwPoint = c
+            b.cwPoint = c
+            b.ccwPoint = a
+            c.cwPoint = a
+            c.ccwPoint = b   
+          
         pass
 
     elif len(points) == 2:
@@ -186,6 +207,15 @@ def buildHull( points ):
         # Base case of 2 points: make a hull
 
         # [YOUR CODE HERE]
+        # Initialize and declare a and b to hold their respective points
+        a = points[0]
+        b = points[1]
+        # Set point b to be the clockwise and counter-clockwise point to a
+        a.cwPoint = b
+        a.ccwPoint = b
+        # Set point a to be the clockwise and counter-cockwise point to b
+        b.cwPoint = a
+        b.ccwPoint = a 
       
         pass
 
@@ -194,6 +224,17 @@ def buildHull( points ):
         # Recurse to build left and right hull
 
         # [YOUR CODE HERE]
+        # Split size of points[] in half and create two arrays
+        newSize = points.length()/2
+        # Assign the first half of points[] to L and the second half of points[] to R
+        for i in range(points.length()):
+            if i < newSize:
+               L[i] = points[i]
+            else:
+               R[i - newSize] = points[i]
+        # Recursively call buildHull for both arrays      
+        buildHull(L)
+        buildHull(R)
       
         pass
 
